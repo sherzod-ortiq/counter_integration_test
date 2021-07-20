@@ -15,6 +15,7 @@ void main() {
     // Connect to the Flutter driver before running any tests.
     setUpAll(() async {
       driver = await FlutterDriver.connect();
+      //await driver.waitUntilFirstFrameRasterized();
     });
 
     // Close the connection to the driver after the tests have completed.
@@ -25,6 +26,7 @@ void main() {
     test('starts at 0', () async {
       // Use the `driver.getText` method to verify the counter starts at 0.
       expect(await driver.getText(counterTextFinder), "0");
+      await Future.delayed(Duration(seconds: 1));
     });
 
     test('increments the counter', () async {
@@ -33,16 +35,26 @@ void main() {
 
       // Then, verify the counter text is incremented by 1.
       expect(await driver.getText(counterTextFinder), "1");
+      await Future.delayed(Duration(seconds: 1));
     });
 
-    test('increments the counter during animation', () async {
-      await driver.runUnsynchronized(() async {
-        // First, tap the button.
-        await driver.tap(buttonFinder);
+    test('increments the counter', () async {
+      // First, tap the button.
+      await driver.tap(buttonFinder);
 
-        // Then, verify the counter text is incremented by 1.
-        expect(await driver.getText(counterTextFinder), "1");
-      });
+      // Then, verify the counter text is incremented by 1.
+      expect(await driver.getText(counterTextFinder), "2");
+      await Future.delayed(Duration(seconds: 1));
     });
+
+    // test('increments the counter during animation', () async {
+    //   await driver.runUnsynchronized(() async {
+    //     // First, tap the button.
+    //     await driver.tap(buttonFinder);
+
+    //     // Then, verify the counter text is incremented by 1.
+    //     expect(await driver.getText(counterTextFinder), "1");
+    //   });
+    // });
   });
 }
